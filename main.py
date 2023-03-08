@@ -13,6 +13,18 @@ templates = Jinja2Templates(directory="templates")
 async def read_item(request: Request):
     return templates.TemplateResponse("home.html", {"request": request})
 
+@app.get("/product_information", response_class=HTMLResponse)
+async def read_item(request: Request):
+    return templates.TemplateResponse("product_information.html", {"request": request})
+
+@app.get("/fertilizer", response_class=HTMLResponse)
+async def read_item(request: Request):
+    return templates.TemplateResponse("fertilizer.html", {"request": request})
+
+@app.get("/sensor_data", response_class=HTMLResponse)
+async def read_item(request: Request):
+    return templates.TemplateResponse("sensor_data.html", {"request": request})
+
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
-    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=True)
+    uvicorn.run("main:app", host="127.0.0.1", port=port, reload=True)
