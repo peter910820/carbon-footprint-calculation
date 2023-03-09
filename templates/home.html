@@ -9,27 +9,80 @@
 <body>
     <table border="1" align="center">
         <tr>
-          <td>栽種作物</td>
-          <td>面積</td>
-          <td>肥料/藥量</td>
-          <td>CO2e結果</td>
-          <td>二氧化碳</td>
-          <td>甲烷</td>
-          <td>對應之CO2e</td>
-          <td>ppm</td>
-          <td>總CO2e</td>
+          <td>grow_crops</td>
+          <td>area</td>
+          <td>Fertilizer</td>
+          <td>dosage</td>
+          <td>Fertilizer_co2e</td>
+          <td>co2_co2e</td>
+          <td>Fmethane_co2e</td>
+          <td>final_co2e</td>
         </tr>
+        {% for i in product_information %}
         <tr>
-          <td>稻米</td>
-          <td>None</td>
-          <td>None</td>
-          <td>None</td>
-          <td></td>
-          <td>None</td>
-          <td>None</td>
-          <td>None</td>
-          <td>None</td>
+          <td>{{ i[0] }}</td>
+          <td>{{ i[1] }}</td>
+          <td>{{ i[2] }}</td>
+          <td>{{ i[3] }}</td>
+          <td>{{ i[4] }}</td>
+          <td>{{ i[5] }}</td>
+          <td>{{ i[6] }}</td>
+          <td>{{ i[7] }}</td>
         </tr>
+        {% endfor %}
+      </table>
+
+      <hr/>
+
+      <table border="1" align="center">
+        <tr>
+          <td>name</td>
+          <td>unit</td>
+          <td>N_kg</td>
+          <td>P2O5_kg</td>
+          <td>K2O_kg</td>
+        </tr>
+        {% for j in fertilizer %}
+        <tr>
+          <td>{{ j[0] }}</td>
+          <td>{{ j[1] }}</td>
+          <td>{{ j[2] }}</td>
+          <td>{{ j[3] }}</td>
+          <td>{{ j[4] }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+
+      <hr/>
+
+      <table border="1" align="center">
+        <tr>
+          <td>ppm</td>
+          <td>time</td>
+        </tr>
+        {% for k in sensor_data %}
+        <tr>
+          <td>{{ k[0] }}</td>
+          <td>{{ k[1] }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+
+      <hr/>
+
+      <table border="1" align="center">
+        <tr>
+          <td>type</td>
+          <td>dosage</td>
+          <td>time</td>
+        </tr>
+        {% for l in fertilizer_us %}
+        <tr>
+          <td>{{ l[0] }}</td>
+          <td>{{ l[1] }}</td>
+          <td>{{ l[2] }}</td>
+        </tr>
+        {% endfor %}
       </table>
 </body>
 </html>
