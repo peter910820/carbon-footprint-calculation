@@ -15,11 +15,21 @@ DATABASE_URL = 'postgres://university_topic_user:QTv1CNqIdUAliShL1DldMYWaqV9wnhc
 
 @app.get("/", response_class=HTMLResponse)
 async def root(request: Request):
-    product_information = show_product_information()
-    fertilizer = show_fertilizer()
-    sensor_data = show_sensor_data()
-    fertilizer_us = show_fertilizer_use()
-    return templates.TemplateResponse("home.html", {"request": request, 'product_information' : product_information, 'fertilizer' : fertilizer, 'sensor_data' : sensor_data, 'fertilizer_us' : fertilizer_us})
+    return templates.TemplateResponse("tmpHome.html", {"request": request})
+
+@app.post("/show_table", response_class=HTMLResponse)
+async def show_table(request: Request, table: str = Form(...)):
+    if table == '產品表格':
+        data = show_product_information()
+        table = 'product_information'
+    elif table == '農藥表格':
+        data = show_fertilizer()
+        table = 'fertilizer'
+    else:
+        data = show_sensor_data()
+        table = 'sensor_data'
+    return templates.TemplateResponse("show_table.html", {"request": request, 'table' : table, 'data' : data})
+
 
 @app.get("/product_information", response_class=HTMLResponse)
 async def product_information(request: Request):
@@ -33,17 +43,13 @@ async def fertilizer(request: Request):
 async def sensor_data(request: Request):
     return templates.TemplateResponse("sensor_data.html", {"request": request})
 
-@app.get("/fertilizer_use", response_class=HTMLResponse)
-async def sensor_data(request: Request):
-    return templates.TemplateResponse("fertilizer_use.html", {"request": request})
-
 @app.post("/pi_insert", response_class=HTMLResponse)
 async def pi_insert(request: Request, information : list = Form(...)):
     insert = []
     try:
         a = 0
         for i in information:
-            if a <= 2:
+            if a == 0 or a == 2:
                 insert.append(i)
             else:
                 insert.append(float(i))
@@ -53,7 +59,7 @@ async def pi_insert(request: Request, information : list = Form(...)):
         return
     conn = psycopg2.connect(DATABASE_URL, sslmode='require')
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO product_information VALUES (%s,%s,%s,%s,%s,%s,%s,%s)", (insert[0],insert[1],insert[2],insert[3],insert[4],insert[5],insert[6],insert[7]))
+    cursor.execute("INSERT INTO product_information VALUES (%s,%s,%s,%s,%s,%s)", (insert[0],insert[1],insert[2],insert[3],insert[4],insert[5]))
     conn.commit()
     print(insert)
     return templates.TemplateResponse('success.html',{'request':request})
@@ -93,29 +99,8 @@ async def sd_insert(request: Request, ppm : str = Form(...)):
     print(ppm)
     return templates.TemplateResponse('success.html',{'request':request})
 
-@app.post("/fu_insert", response_class=HTMLResponse)
-async def fu_insert(request: Request, information : list = Form(...)):
-    insert = []
-    try:
-        a = 0
-        for i in information:
-            if a == 0:
-                insert.append(i)
-            else:
-                insert.append(float(i))
-            a += 1
-    except:
-        print('輸入格式有誤')
-        return
-    conn = psycopg2.connect(DATABASE_URL, sslmode='require')
-    cursor = conn.cursor()
-    cursor.execute("INSERT INTO fertilizer_use (type,dosage) VALUES (%s,%s)", (insert[0],insert[1]))
-    conn.commit()
-    print(insert)
-    return templates.TemplateResponse('success.html',{'request':request})
-
 
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
-    uvicorn.run("main:app", host="127.0.0.1", port=port, reload=True)
+    uvicorn.run("app:app", host="127.0.0.1", port=port, reload=True)

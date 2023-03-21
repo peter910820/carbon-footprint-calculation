@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}碳足跡系統{% endblock %}
+
+{% block main %}
+<table border="1" align="center">
+    {% if table == 'product_information' %}
+        <tr>
+            <td>grow_crops</td>
+            <td>area</td>
+            <td>Fertilizer</td>
+            <td>dosage</td>
+            <td>Fertilizer_co2e</td>
+            <td>final_co2e</td>
+        </tr>
+        {% for i in data %}
+        <tr>
+            <td>{{ i[0] }}</td>
+            <td>{{ i[1] }}</td>
+            <td>{{ i[2] }}</td>
+            <td>{{ i[3] }}</td>
+            <td>{{ i[4] }}</td>
+            <td>{{ i[5] }}</td>
+        </tr>
+        {% endfor %}
+
+    {% elif table == 'fertilizer' %}
+    <tr>
+        <td>name</td>
+        <td>unit</td>
+        <td>N_kg</td>
+        <td>P2O5_kg</td>
+        <td>K2O_kg</td>
+    </tr>
+    {% for i in data %}
+    <tr>
+        <td>{{ i[0] }}</td>
+        <td>{{ i[1] }}</td>
+        <td>{{ i[2] }}</td>
+        <td>{{ i[3] }}</td>
+        <td>{{ i[4] }}</td>
+    </tr>
+    {% endfor %}
+    {% else %}
+    <tr>
+        <td>ppm</td>
+        <td>time</td>
+    </tr>
+    {% for i in data %}
+    <tr>
+        <td>{{ i[0] }}</td>
+        <td>{{ i[1] }}</td>
+    </tr>
+    {% endfor %}
+    {% endif %}
+</table>
+{% endblock %}

@@ -7,12 +7,10 @@ cursor = conn.cursor()
 
 cursor.execute('''CREATE TABLE product_information (
     grow_crops VARCHAR(199) NOT NULL,
-    area VARCHAR(199) NOT NULL,
+    area DOUBLE PRECISION NOT NULL,
     Fertilizer VARCHAR(199),
     dosage DOUBLE PRECISION,
     Fertilizer_co2e DOUBLE PRECISION,
-    co2_co2e DOUBLE PRECISION,
-    methane_co2e DOUBLE PRECISION,
     final_co2e DOUBLE PRECISION NOT NULL);''')
 
 cursor.execute('''CREATE TABLE fertilizer (
@@ -26,15 +24,9 @@ cursor.execute('''CREATE TABLE sensor_data (
     ppm DOUBLE PRECISION NULL,
     time TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP);''')
 
-cursor.execute('''create table fertilizer_use (
-    type VARCHAR(199),
-    dosage DOUBLE PRECISION,
-    time TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP);''')
-
-
 
 conn.commit()
-print('suc')
+print('success')
 
 cursor.close()
 conn.close()

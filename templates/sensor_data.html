@@ -1,12 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>carbon-footprint</title>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block title %}碳足跡系統{% endblock %}
+
+{% block main %}
+
     <div class="container">
         <h1>手動輸入感測器資訊:</h1>
         <h3>sensor_data insert</h3>
@@ -16,5 +13,5 @@
                 <input type="submit" value="送出">
         </div>
     </div>
-</body>
-</html>
+    
+{% endblock %}
