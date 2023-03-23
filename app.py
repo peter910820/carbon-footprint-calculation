@@ -5,7 +5,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse
 
-from src.database import *
+from src.database import DatabaseConnect
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -15,18 +15,19 @@ DATABASE_URL = 'postgres://university_topic_user:QTv1CNqIdUAliShL1DldMYWaqV9wnhc
 
 @app.get("/", response_class=HTMLResponse)
 async def root(request: Request):
-    return templates.TemplateResponse("tmpHome.html", {"request": request})
+    return templates.TemplateResponse("home.html", {"request": request})
 
 @app.post("/show_table", response_class=HTMLResponse)
 async def show_table(request: Request, table: str = Form(...)):
+    database = DatabaseConnect()
     if table == '產品表格':
-        data = show_product_information()
+        data = database.show_product_information()
         table = 'product_information'
     elif table == '農藥表格':
-        data = show_fertilizer()
+        data = database.show_fertilizer()
         table = 'fertilizer'
     else:
-        data = show_sensor_data()
+        data = database.show_sensor_data()
         table = 'sensor_data'
     return templates.TemplateResponse("show_table.html", {"request": request, 'table' : table, 'data' : data})
 

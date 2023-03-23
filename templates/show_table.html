@@ -3,7 +3,9 @@
 {% block title %}碳足跡系統{% endblock %}
 
 {% block main %}
-<table border="1" align="center">
+</br>
+<div class="tb_css">
+<table class="table table-striped table-info">
     {% if table == 'product_information' %}
         <tr>
             <td>grow_crops</td>
@@ -54,4 +56,5 @@
     {% endfor %}
     {% endif %}
 </table>
+</div>
 {% endblock %}

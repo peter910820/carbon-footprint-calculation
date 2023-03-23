@@ -1,0 +1,28 @@
+.center{
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.tb_css{
+    margin-left: 120px;
+    margin-right: 120px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.bold{
+    font-weight: bold;
+}
+
+.button{
+    background-color:rgb(8, 155, 235);
+    color:white;
+    border-radius:10px;
+    border-style:groove;
+}
+
+.button:hover{
+    background-color:rgb(231, 246, 31);
+    color:black;
+}

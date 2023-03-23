@@ -1,88 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>carbon-footprint</title>
-</head>
-<body>
-    <table border="1" align="center">
-        <tr>
-          <td>grow_crops</td>
-          <td>area</td>
-          <td>Fertilizer</td>
-          <td>dosage</td>
-          <td>Fertilizer_co2e</td>
-          <td>co2_co2e</td>
-          <td>Fmethane_co2e</td>
-          <td>final_co2e</td>
-        </tr>
-        {% for i in product_information %}
-        <tr>
-          <td>{{ i[0] }}</td>
-          <td>{{ i[1] }}</td>
-          <td>{{ i[2] }}</td>
-          <td>{{ i[3] }}</td>
-          <td>{{ i[4] }}</td>
-          <td>{{ i[5] }}</td>
-          <td>{{ i[6] }}</td>
-          <td>{{ i[7] }}</td>
-        </tr>
-        {% endfor %}
-      </table>
+{% extends "base.html" %}
 
-      <hr/>
+{% block title %}碳足跡系統{% endblock %}
 
-      <table border="1" align="center">
-        <tr>
-          <td>name</td>
-          <td>unit</td>
-          <td>N_kg</td>
-          <td>P2O5_kg</td>
-          <td>K2O_kg</td>
-        </tr>
-        {% for j in fertilizer %}
-        <tr>
-          <td>{{ j[0] }}</td>
-          <td>{{ j[1] }}</td>
-          <td>{{ j[2] }}</td>
-          <td>{{ j[3] }}</td>
-          <td>{{ j[4] }}</td>
-        </tr>
-        {% endfor %}
-      </table>
-
-      <hr/>
-
-      <table border="1" align="center">
-        <tr>
-          <td>ppm</td>
-          <td>time</td>
-        </tr>
-        {% for k in sensor_data %}
-        <tr>
-          <td>{{ k[0] }}</td>
-          <td>{{ k[1] }}</td>
-        </tr>
-        {% endfor %}
-      </table>
-
-      <hr/>
-
-      <table border="1" align="center">
-        <tr>
-          <td>type</td>
-          <td>dosage</td>
-          <td>time</td>
-        </tr>
-        {% for l in fertilizer_us %}
-        <tr>
-          <td>{{ l[0] }}</td>
-          <td>{{ l[1] }}</td>
-          <td>{{ l[2] }}</td>
-        </tr>
-        {% endfor %}
-      </table>
-</body>
-</html>
+{% block main %}
+<h2 class='bold center'>選擇表格</h2>
+<form action="/show_table" method="post">
+      <div class="col-md-3 mb-3 center">
+        <!-- <label for="table">選擇表格</label> -->
+        <select class='form-control form-control-lg' name="table">
+          <option>產品表格</option>
+          <option>農藥表格</option>
+          <option>感測器表格</option>
+        </select>
+        </br>
+        <button class="btn btn-primary" type="submit">查詢表格</button>
+      </div>
+</form>
+{% endblock %}
