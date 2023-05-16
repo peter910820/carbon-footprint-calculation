@@ -5,7 +5,20 @@ class DatabaseConnect:
     def __init__(self):
         self.remind_message = 'Database is connect OK!'
         self.DATABASE_URL = 'postgres://university_topic_user:QTv1CNqIdUAliShL1DldMYWaqV9wnhc0@dpg-cfvpfqt269v0ptn4thtg-a.oregon-postgres.render.com/university_topic'
-
+    
+    def maindata_insert(self, information, fertilizer_integrate):
+        database = psycopg2.connect(self.DATABASE_URL, sslmode='require')
+        cursor = database.cursor()
+        print(self.remind_message)
+        insertQuery = """INSERT INTO product_information VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"""
+        
+        # cursor.execute(insertQuery, 
+        #             (article_array[0], article_array[4], article_array[1], article_array[2],
+        #             article_array[6], f'{article_array[4]},{article_array[5]}', article_array[3], article_array[7],
+        #             currentDateTime))
+        # db.commit() 
+        return
+    
     def show_product_information(self):
         database = psycopg2.connect(self.DATABASE_URL, sslmode='require')
         cursor = database.cursor()   

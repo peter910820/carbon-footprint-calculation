@@ -3,7 +3,7 @@ function increase(){
     insert.innerHTML += 
     `<div class="col-5 fertilizer_space_insert">
         <label for="fertilizer" class="form-label">肥料</label>
-        <select id="fertilizer" name='information' class="form-select is-invalid" required>
+        <select id="fertilizer" name='information_fertilizer' class="form-select is-invalid" required>
             <option selected disabled value="">選擇肥料...</option>
             <!-- <option value="Compound_Fertilizer_No.1">1號複合肥料</option>
                 <option value="Compound_Fertilizer_No.4">4號複合肥料</option>
@@ -22,7 +22,7 @@ function increase(){
     </div>
     <div class="col-5 fertilizer_space_insert">
         <label for="dosage_fertilizer" class="form-label">肥料劑量</label>
-        <input type="text" name='information' class="form-control" id="dosage_fertilizer" value="" required>
+        <input type="text" name='information_dosage_fertilizer' class="form-control" id="dosage_fertilizer" value="" required>
         <div class="invalid-feedback">
             請填寫肥料劑量
         </div>

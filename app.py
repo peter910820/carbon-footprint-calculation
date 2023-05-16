@@ -23,7 +23,25 @@ class Data(BaseModel):
 async def product_information(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
-
+@app.post("/maindata-insert", response_class=HTMLResponse)
+async def maindata(request: Request, information: list = Form(...), 
+                   information_fertilizer: list = Form(...), 
+                   information_dosage_fertilizer: list = Form(...)):
+    fertilizer, dosage_fertilizer = '', ''
+    fertilizer_integrate = []
+    try:
+        database = DatabaseConnect()
+        for f in information_fertilizer:
+            fertilizer += f"{f}//"
+        for d_f in information_dosage_fertilizer:
+            dosage_fertilizer += f"{d_f}//"
+        fertilizer_integrate.append(fertilizer)
+        fertilizer_integrate.append(dosage_fertilizer)
+        database.maindata_insert(information, fertilizer_integrate)
+        return templates.TemplateResponse("success.html", {"request": request})
+    except:
+        return templates.TemplateResponse("error.html", {"request": request})
+    
 @app.get("/", response_class=HTMLResponse)
 async def root(request: Request):
     return templates.TemplateResponse("home.html", {"request": request})
