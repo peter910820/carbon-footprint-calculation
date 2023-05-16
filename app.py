@@ -1,9 +1,11 @@
 import uvicorn, os, psycopg2
+from dotenv import load_dotenv
 from fastapi import FastAPI, Request, Form, Response, HTTPException
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse
+from pydantic import BaseModel
 
 from src.database import DatabaseConnect
 
@@ -11,7 +13,16 @@ app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
-DATABASE_URL = 'postgres://university_topic_user:QTv1CNqIdUAliShL1DldMYWaqV9wnhc0@dpg-cfvpfqt269v0ptn4thtg-a.oregon-postgres.render.com/university_topic'
+load_dotenv()
+DATABASE_URL =  os.getenv('DATABASE_URL')
+
+class Data(BaseModel):
+    name: str
+
+@app.get("/", response_class=HTMLResponse)
+async def product_information(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
+
 
 @app.get("/", response_class=HTMLResponse)
 async def root(request: Request):
@@ -100,7 +111,17 @@ async def sd_insert(request: Request, ppm : str = Form(...)):
     print(ppm)
     return templates.TemplateResponse('success.html',{'request':request})
 
-
+@app.post("/sd", response_class=HTMLResponse)
+async def sensor_data(request: Request, data : Data):
+    data_dict = data.dict()
+    print(data_dict['name'])
+    data_dict['name'] = data_dict['name'].replace('[','')
+    data_dict['name'] = data_dict['name'].replace(']','')
+    s = float(data_dict['name'][-1])
+    conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+    cursor = conn.cursor()
+    cursor.execute(f"INSERT INTO sensor_data (ppm) VALUES ({s})")
+    conn.commit()
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))

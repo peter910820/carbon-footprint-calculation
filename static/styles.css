@@ -26,3 +26,15 @@
     background-color:rgb(231, 246, 31);
     color:black;
 }
+
+body{
+    background-image: url("./cover.jpg");
+    background-size: cover;
+    background-attachment: fixed;
+    font-weight:bold;
+    
+}
+.bodyMask {
+    background: rgba(255, 255, 255, 0.4);
+    margin-bottom: 0px;
+}

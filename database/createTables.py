@@ -24,7 +24,6 @@ cursor.execute('''CREATE TABLE sensor_data (
     ppm DOUBLE PRECISION NULL,
     time TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP);''')
 
-
 conn.commit()
 print('success')
 
