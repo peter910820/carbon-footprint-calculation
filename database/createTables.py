@@ -6,15 +6,16 @@ DATABASE_URL =  os.getenv('DATABASE_URL')
 
 conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 cursor = conn.cursor()
+
 cursor.execute('''CREATE TABLE product_information (
     creater VARCHAR(20) NOT NULL,
     grow_crops VARCHAR(20) NOT NULL,
     origin_place VARCHAR(20) NOT NULL,
     area DOUBLE PRECISION NOT NULL,
     fertilizer VARCHAR(100) NOT NULL,
-    dosage_fertilizer DOUBLE PRECISION NOT NULL,
+    dosage_fertilizer VARCHAR(100) NOT NULL,
     pesticide VARCHAR(100) NOT NULL,
-    dosage_pesticide DOUBLE PRECISION NOT NULL,
+    dosage_pesticide VARCHAR(100) NOT NULL,
     fertilizer_co2e DOUBLE PRECISION NOT NULL,
     pesticide_co2e DOUBLE PRECISION NOT NULL,
     final_co2e DOUBLE PRECISION NOT NULL,

@@ -37,29 +37,23 @@ async def maindata(request: Request, information: list = Form(...),
             dosage_fertilizer += f"{d_f}//"
         fertilizer_integrate.append(fertilizer)
         fertilizer_integrate.append(dosage_fertilizer)
-        database.maindata_insert(information, fertilizer_integrate)
+        print(database.maindata_insert(information, fertilizer_integrate))
         return templates.TemplateResponse("success.html", {"request": request})
-    except:
-        return templates.TemplateResponse("error.html", {"request": request})
+    except Exception as error:
+        return templates.TemplateResponse("error.html", {"request": request, "error": error})
     
 @app.get("/", response_class=HTMLResponse)
 async def root(request: Request):
     return templates.TemplateResponse("home.html", {"request": request})
 
-@app.post("/show_table", response_class=HTMLResponse)
-async def show_table(request: Request, table: str = Form(...)):
+@app.get("/show-table/{table}", response_class=HTMLResponse)
+async def show_table(request: Request, table):
     database = DatabaseConnect()
-    if table == '產品表格':
-        data = database.show_product_information()
-        table = 'product_information'
-    elif table == '農藥表格':
-        data = database.show_fertilizer()
-        table = 'fertilizer'
-    else:
-        data = database.show_sensor_data()
-        table = 'sensor_data'
-    return templates.TemplateResponse("show_table.html", {"request": request, 'table' : table, 'data' : data})
-
+    datas = database.select_table(table)
+    if datas != 1:
+        return templates.TemplateResponse("show_table.html", {"request": request, 'table' : table, 'datas' : datas})
+    error = "ERROR: This table is not exist."
+    return templates.TemplateResponse("error.html", {"request": request, "error": error})
 
 @app.get("/insert/{table}", response_class=HTMLResponse)
 async def insert_table(request: Request, table):

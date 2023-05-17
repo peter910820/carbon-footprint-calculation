@@ -3,58 +3,36 @@
 {% block title %}碳足跡系統{% endblock %}
 
 {% block main %}
-</br>
-<div class="tb_css">
-<table class="table table-striped table-info">
-    {% if table == 'product_information' %}
-        <tr>
-            <td>grow_crops</td>
-            <td>area</td>
-            <td>Fertilizer</td>
-            <td>dosage</td>
-            <td>Fertilizer_co2e</td>
-            <td>final_co2e</td>
-        </tr>
-        {% for i in data %}
-        <tr>
-            <td>{{ i[0] }}</td>
-            <td>{{ i[1] }}</td>
-            <td>{{ i[2] }}</td>
-            <td>{{ i[3] }}</td>
-            <td>{{ i[4] }}</td>
-            <td>{{ i[5] }}</td>
-        </tr>
+<div class="table-responsive center">
+    <table class="table table-striped table-info">
+    {% if table == "product_information" %}
+        <thead>
+            <tr>
+            <th scope="col">輸入者</th>
+            <th scope="col">作物</th>
+            <th scope="col">產地</th>
+            <th scope="col">種植面積</th>
+            <th scope="col">肥料</th>
+            <th scope="col">肥料劑量</th>
+            <th scope="col">總co2e</th>
+            <th scope="col">建立時間</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for data in datas %}
+            <tr>
+                <td>{{ data[0] }}</td>
+                <td>{{ data[1] }}</td>
+                <td>{{ data[2] }}</td>
+                <td>{{ data[3] }}</td>
+                <td>{{ data[4] }}</td>
+                <td>{{ data[5] }}</td>
+                <td>{{ data[10] }}</td>
+                <td>{{ data[11] }}</td>
+            </tr>
         {% endfor %}
-
-    {% elif table == 'fertilizer' %}
-    <tr>
-        <td>name</td>
-        <td>unit</td>
-        <td>N_kg</td>
-        <td>P2O5_kg</td>
-        <td>K2O_kg</td>
-    </tr>
-    {% for i in data %}
-    <tr>
-        <td>{{ i[0] }}</td>
-        <td>{{ i[1] }}</td>
-        <td>{{ i[2] }}</td>
-        <td>{{ i[3] }}</td>
-        <td>{{ i[4] }}</td>
-    </tr>
-    {% endfor %}
-    {% else %}
-    <tr>
-        <td>ppm</td>
-        <td>time</td>
-    </tr>
-    {% for i in data %}
-    <tr>
-        <td>{{ i[0] }}</td>
-        <td>{{ i[1] }}</td>
-    </tr>
-    {% endfor %}
+        </tbody>
     {% endif %}
-</table>
+    </table>
 </div>
 {% endblock %}

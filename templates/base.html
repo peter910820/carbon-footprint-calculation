@@ -19,17 +19,20 @@
               <div class="navbar-nav">
                 <a class="nav-link" href="/insert/fertilizer">農藥資料鍵入</a>
                 <a class="nav-link" href="/insert/sensor_data">感測器資料鍵入</a>
+                <a class="nav-link" href="/show-table/product_information">查看主表格</a>
+                <a class="nav-link" href="/show-table/fertilizer">查看肥料表格</a>
+                <a class="nav-link" href="/show-table/sensor_data">查看感測器表格</a>
               </div>
             </div>
         </nav>
         <div class="row container-fluid">
-          <div class="col-3"></div>
-          <div class="col-6 bodyMask " style="height: 120vh;">
+          <div class="col-2"></div>
+          <div class="col-8 bodyMask" style="height: 120vh;">
             <br>
             {% block main %}{% endblock %}
             <br>
           </div>
-          <div class="col-3"></div>
+          <div class="col-2"></div>
         </div>
         <script src="https://unpkg.com/bootstrap@5.2.3/dist/js/bootstrap.min.js"></script>
         {% block script %}{% endblock %}
