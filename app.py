@@ -40,11 +40,7 @@ async def maindata(request: Request, information: list = Form(...),
         print(database.maindata_insert(information, fertilizer_integrate))
         return templates.TemplateResponse("success.html", {"request": request})
     except Exception as error:
-        return templates.TemplateResponse("error.html", {"request": request, "error": error})
-    
-@app.get("/", response_class=HTMLResponse)
-async def root(request: Request):
-    return templates.TemplateResponse("home.html", {"request": request})
+        return templates.TemplateResponse("error.html", {"request": request, "error": error})  
 
 @app.get("/show-table/{table}", response_class=HTMLResponse)
 async def show_table(request: Request, table):
@@ -65,30 +61,13 @@ async def insert_table(request: Request, table):
 
 @app.post("/submit/{table}", response_class=HTMLResponse)
 async def submit_table(request: Request, table, information : list = Form(...)):
-    currentDateTime = datetime.datetime.now()
     try:
+        database = DatabaseConnect()
         match table:
             case "fertilizer":
-                insert = []
-                a = 0
-                for i in information:
-                    if a <= 1:
-                        insert.append(i)
-                    else:
-                        insert.append(float(i))
-                    a += 1
-                conn = psycopg2.connect(DATABASE_URL, sslmode='require')
-                cursor = conn.cursor()
-                # has a problem
-                cursor.execute("INSERT INTO fertilizer VALUES (%s,%s,%s,%s,%s)", (insert[0],insert[1],insert[2],insert[3],insert[4]))
-                conn.commit()
+                print(database.fertilizer_insert(information))
             case "sensor":
-                ppm = float(information[0])
-                conn = psycopg2.connect(DATABASE_URL, sslmode='require')
-                cursor = conn.cursor()
-                # has a problem?
-                cursor.execute("INSERT INTO sensor_data VALUES (%s,%s)", (ppm, currentDateTime))
-                conn.commit()
+                print(database.sensor_insert(information))
         return templates.TemplateResponse('success.html',{'request':request})
     except Exception as error:
         print(error)
@@ -106,6 +85,6 @@ async def sensor_data(request: Request, data : Data):
     cursor.execute(f"INSERT INTO sensor_data (ppm) VALUES ({s})")
     conn.commit()
 
-if __name__ == "__main__":
-    port = int(os.environ.get('PORT', 5000))
-    uvicorn.run("app:app", host="127.0.0.1", port=port, reload=True)
+# if __name__ == "__main__":
+#     port = int(os.environ.get('PORT', 5000))
+#     uvicorn.run("app:app", host="127.0.0.1", port=port, reload=True)

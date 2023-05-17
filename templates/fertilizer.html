@@ -3,15 +3,49 @@
 {% block title %}碳足跡系統{% endblock %}
 
 {% block main %}
-    <h1>輸入農藥資訊:</h1>
-    <div>
-        <form action="/submit/fertilizer" method="post">
-            <input type="text" name="information" class="form-control" placeholder="name: "><br>
-            <input type="text" name="information" class="form-control" placeholder="unit: "><br>
-            <input type="text" name="information" class="form-control" placeholder="N_kg: "><br>
-            <input type="text" name="information" class="form-control" placeholder="P2O5_kg: "><br>
-            <input type="text" name="information" class="form-control" placeholder="K2O_kg :"><br>
-            <input type="text" name="information" class="form-control" placeholder="CO2e :"><br>
+    <h1>紀錄肥料資訊:</h1>
+    <form class="row g-3 was-validated" action="/submit/fertilizer" method="post">
+        <div class="col-6">
+            <label for="name" class="form-label">肥料名稱</label>
+            <input type="text" name='information' class="form-control" id="name" value="" required>
+            <div class="invalid-feedback">
+                請填寫肥料名稱
+            </div>
+        </div>
+        <div class="col-6">
+            <label for="unit" class="form-label">單位(以公斤為單位)</label>
+            <input type="text" name='information' class="form-control" id="unit" value="公斤" disabled required>
+        </div>
+        <div class="col-6">
+            <label for="N_kg" class="form-label">每公斤氮(N)</label>
+            <input type="text" name='information' class="form-control" id="N_kg" value="" required>
+            <div class="invalid-feedback">
+                請填寫氮(N)量
+            </div>
+        </div>
+        <div class="col-6">
+            <label for="P2O5_kg" class="form-label">每公斤磷酐(P2O5)</label>
+            <input type="text" name='information' class="form-control" id="P2O5_kg" value="" required>
+            <div class="invalid-feedback">
+                請填寫磷酐(P2O5)量
+            </div>
+        </div>
+        <div class="col-6">
+            <label for="K2O_kg" class="form-label">每公斤氧化鉀(K2O)</label>
+            <input type="text" name='information' class="form-control" id="K2O_kg" value="" required>
+            <div class="invalid-feedback">
+                請填寫氧化鉀(K2O)
+            </div>
+        </div>
+        <div class="col-6">
+            <label for="CO2e" class="form-label">co2e</label>
+            <input type="text" name='information' class="form-control" id="CO2e" value="" required>
+            <div class="invalid-feedback">
+                請填寫co2e
+            </div>
+        </div>
+        <div class="col-12">
             <button type="submit" class="btn button">送出</button>
-    </div>
+        </div>
+    </form>
 {% endblock %}

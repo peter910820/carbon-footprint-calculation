@@ -4,27 +4,40 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.0.2/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="{{ url_for('static', path='/styles.css') }}">
         <link rel="icon" href="{{ url_for('static', path='/icon.ico') }}">
         <title>{% block title %}{% endblock %}</title>
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
-            <a class="navbar-brand" href="/">碳足跡系統</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-              <div class="navbar-nav">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/">碳足跡紀錄系統</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+              <li class="nav-item">
                 <a class="nav-link" href="/insert/fertilizer">農藥資料鍵入</a>
+              </li>
+              <li class="nav-item">
                 <a class="nav-link" href="/insert/sensor_data">感測器資料鍵入</a>
-                <a class="nav-link" href="/show-table/product_information">查看主表格</a>
-                <a class="nav-link" href="/show-table/fertilizer">查看肥料表格</a>
-                <a class="nav-link" href="/show-table/sensor_data">查看感測器表格</a>
-              </div>
-            </div>
-        </nav>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  查看表格資料
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  <li><a class="dropdown-item" href="/show-table/product_information">主表格</a></li>
+                  <li><a class="dropdown-item" href="/show-table/fertilizer">肥料表格</a></li>
+                  <li><a class="dropdown-item" href="/show-table/sensor_data">感測器表格</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
         <div class="row container-fluid">
           <div class="col-2"></div>
           <div class="col-8 bodyMask" style="height: 120vh;">
@@ -34,7 +47,8 @@
           </div>
           <div class="col-2"></div>
         </div>
-        <script src="https://unpkg.com/bootstrap@5.2.3/dist/js/bootstrap.min.js"></script>
+        <script src="https://unpkg.com/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+        <script src="https://unpkg.com/popper.js@1.12.8/dist/popper.min.js"></script>
         {% block script %}{% endblock %}
     </body>
 </html>

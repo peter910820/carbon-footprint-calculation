@@ -8,13 +8,39 @@
     {% if table == "product_information" %}
         <thead>
             <tr>
-            <th scope="col">輸入者</th>
-            <th scope="col">作物</th>
-            <th scope="col">產地</th>
-            <th scope="col">種植面積</th>
-            <th scope="col">肥料</th>
-            <th scope="col">肥料劑量</th>
-            <th scope="col">總co2e</th>
+            <th scope="col" class="col-1">輸入者</th>
+            <th scope="col" class="col-1">作物</th>
+            <th scope="col" class="col-1">產地</th>
+            <th scope="col" class="col-2">種植面積</th>
+            <th scope="col" class="col-2">肥料</th>
+            <th scope="col" class="col-2">肥料劑量</th>
+            <th scope="col" class="col-1">總co2e</th>
+            <th scope="col" class="col-2">建立時間</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for data in datas %}
+            <tr>
+                <td>{{ data[0] }}</td>
+                <td>{{ data[1] }}</td>
+                <td>{{ data[2] }}</td>
+                <td>{{ data[3] }}</td>
+                <td>{{ data[4] }}</td>
+                <td>{{ data[5] }}</td>
+                <td>{{ data[10]|round(3) }}</td>
+                <td>{{ data[11] }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    {% elif table == "fertilizer" %}
+        <thead>
+            <tr>
+            <th scope="col">肥料名稱</th>
+            <th scope="col">單位</th>
+            <th scope="col">每公斤氮(N)</th>
+            <th scope="col">每公斤磷酐(P2O5)</th>
+            <th scope="col">每公斤氧化鉀(K2O)</th>
+            <th scope="col">co2e</th>
             <th scope="col">建立時間</th>
             </tr>
         </thead>
@@ -27,8 +53,22 @@
                 <td>{{ data[3] }}</td>
                 <td>{{ data[4] }}</td>
                 <td>{{ data[5] }}</td>
-                <td>{{ data[10] }}</td>
-                <td>{{ data[11] }}</td>
+                <td>{{ data[6] }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    {% elif table == "sensor_data" %}
+        <thead>
+            <tr>
+            <th scope="col">ppm</th>
+            <th scope="col">建立時間</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for data in datas %}
+            <tr>
+                <td>{{ data[0] }}</td>
+                <td>{{ data[1] }}</td>
             </tr>
         {% endfor %}
         </tbody>

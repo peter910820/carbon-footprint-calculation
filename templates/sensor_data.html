@@ -3,10 +3,17 @@
 {% block title %}碳足跡系統{% endblock %}
 
 {% block main %}
-    <h1>手動輸入感測器資訊:</h1>
-    <div>
-        <form action="/submit/sensor" method="post">
-            <input type="text" name="information" class="form-control" placeholder="ppm: "><br>
+    <h1>手動紀錄感測器資訊:</h1>
+    <form class="row g-3 was-validated" action="/submit/sensor" method="post">
+        <div class="col-6">
+            <label for="ppm" class="form-label">甲烷ppm</label>
+            <input type="text" name='information' class="form-control" id="ppm" value="" required>
+            <div class="invalid-feedback">
+                請填寫甲烷ppm
+            </div>
+        </div>
+        <div class="col-12">
             <button type="submit" class="btn button">送出</button>
-    </div>
+        </div>
+    </form>
 {% endblock %}

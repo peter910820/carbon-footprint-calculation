@@ -29,9 +29,9 @@ class DatabaseConnect:
             print(information)
             print(type(fertilizer_integrate[0]))
             cursor.execute(insertQuery, 
-                        (information[3], information[0], information[1], information[2],
-                        fertilizer_integrate[0].replace('//',', '), fertilizer_integrate[1].replace('//',', '), "None",'0',
-                        total_co2e, 0.0, total_co2e, currentDateTime))
+                            (information[3], information[0], information[1], information[2],
+                            fertilizer_integrate[0].replace('//',', '), fertilizer_integrate[1].replace('//',', '), "None",'0',
+                            total_co2e, 0.0, total_co2e, currentDateTime))
             database.commit()
             cursor.close()
             database.close()
@@ -39,7 +39,29 @@ class DatabaseConnect:
         except Exception as error:
             print(error)
             return 1
-    
+        
+    def fertilizer_insert(self, information):
+        database = psycopg2.connect(self.DATABASE_URL, sslmode='require')
+        currentDateTime = datetime.datetime.now()
+        cursor = database.cursor() 
+        print(self.remind_message)
+        insertQuery = """INSERT INTO fertilizer VALUES (%s, %s, %s, %s, %s, %s, %s);"""
+        cursor.execute(insertQuery, 
+                        (information[0], "公斤", information[1],
+                        information[2], information[3], information[4], currentDateTime))
+        database.commit()
+        return 0
+
+    def sensor_insert(self, information):
+        database = psycopg2.connect(self.DATABASE_URL, sslmode='require')
+        currentDateTime = datetime.datetime.now()
+        cursor = database.cursor() 
+        print(self.remind_message)
+        insertQuery = """INSERT INTO sensor_data VALUES (%s, %s);"""
+        cursor.execute(insertQuery, (float(information), currentDateTime))
+        database.commit()
+        return 0
+        
     def select_table(self, table_name):
         database = psycopg2.connect(self.DATABASE_URL, sslmode='require')
         cursor = database.cursor() 
@@ -54,51 +76,3 @@ class DatabaseConnect:
             cursor.close()
             database.close()
             return 1
-
-
-    def show_product_information(self):
-        database = psycopg2.connect(self.DATABASE_URL, sslmode='require')
-        cursor = database.cursor()   
-        print(self.remind_message)
-        cursor.execute("SELECT creater FROM product_information")
-        rows = cursor.fetchall()
-        print(rows)
-        database.commit()
-        cursor.close()
-        database.close()
-        return
-
-    def show_fertilizer(self):
-        database = psycopg2.connect(self.DATABASE_URL, sslmode='require')
-        cursor = database.cursor()   
-        print(self.remind_message)
-        cursor.execute("SELECT * FROM fertilizer")
-        rows = cursor.fetchall()
-        t0,t1,t2,t3,t4 = [],[],[],[],[]
-        db0 = []
-        for row in rows:
-            t0.append(row[0])
-            t1.append(row[1])
-            t2.append(row[2])
-            t3.append(row[3])
-            t4.append(row[4])
-        for column in range(len(t0)):
-            n = [t0[column],t1[column],t2[column],t3[column],t4[column]]
-            db0.append(n)
-        return db0
-
-    def show_sensor_data(self):
-        database = psycopg2.connect(self.DATABASE_URL, sslmode='require')
-        cursor = database.cursor()   
-        print(self.remind_message)
-        cursor.execute("SELECT * FROM sensor_data")
-        rows = cursor.fetchall()
-        t0,t1 = [],[]
-        db0 = []
-        for row in rows:
-            t0.append(row[0])
-            t1.append(row[1])
-        for column in range(len(t0)):
-            n = [t0[column],t1[column]]
-            db0.append(n)
-        return db0

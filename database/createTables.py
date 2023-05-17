@@ -34,6 +34,8 @@ cursor.execute('''CREATE TABLE sensor_data (
     ppm DOUBLE PRECISION NULL,
     time TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP);''')
 
+# cursor.execute('''UPDATE product_information SET creater='TEST' WHERE grow_crops='水稻';''')
+
 conn.commit()
 print('success')
 
