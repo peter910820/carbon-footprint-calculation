@@ -1,5 +1,9 @@
 # carbon-footprint-calculation
 
+## 05/18
+* 新增主資料鍵入報錯之顯示
+* 修正sensor資料鍵入完顯示空白之錯誤
+
 ## 05/17
 
 * 修正Navbar bug

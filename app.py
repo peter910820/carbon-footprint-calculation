@@ -37,7 +37,9 @@ async def maindata(request: Request, information: list = Form(...),
             dosage_fertilizer += f"{d_f}//"
         fertilizer_integrate.append(fertilizer)
         fertilizer_integrate.append(dosage_fertilizer)
-        print(database.maindata_insert(information, fertilizer_integrate))
+        status = database.maindata_insert(information, fertilizer_integrate)
+        if status != 0:
+            return templates.TemplateResponse("error.html", {"request": request, 'error' : str(status)})
         return templates.TemplateResponse("success.html", {"request": request})
     except Exception as error:
         return templates.TemplateResponse("error.html", {"request": request, "error": error})  
@@ -65,9 +67,13 @@ async def submit_table(request: Request, table, information : list = Form(...)):
         database = DatabaseConnect()
         match table:
             case "fertilizer":
-                print(database.fertilizer_insert(information))
+                status = database.fertilizer_insert(information)
+                if status != 0:
+                    return templates.TemplateResponse('error.html',{'request': request, "error": str(status)})
             case "sensor":
-                print(database.sensor_insert(information))
+                status = database.sensor_insert(information)
+                if status != 0:
+                    return templates.TemplateResponse('error.html',{'request': request, "error": str(status)})
         return templates.TemplateResponse('success.html',{'request':request})
     except Exception as error:
         print(error)
@@ -85,6 +91,6 @@ async def sensor_data(request: Request, data : Data):
     cursor.execute(f"INSERT INTO sensor_data (ppm) VALUES ({s})")
     conn.commit()
 
-# if __name__ == "__main__":
-#     port = int(os.environ.get('PORT', 5000))
-#     uvicorn.run("app:app", host="127.0.0.1", port=port, reload=True)
+if __name__ == "__main__":
+    port = int(os.environ.get('PORT', 5000))
+    uvicorn.run("app:app", host="127.0.0.1", port=port, reload=True)

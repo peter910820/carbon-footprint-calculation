@@ -37,30 +37,37 @@ class DatabaseConnect:
             database.close()
             return 0
         except Exception as error:
-            print(error)
-            return 1
+            return error
         
     def fertilizer_insert(self, information):
-        database = psycopg2.connect(self.DATABASE_URL, sslmode='require')
-        currentDateTime = datetime.datetime.now()
-        cursor = database.cursor() 
-        print(self.remind_message)
-        insertQuery = """INSERT INTO fertilizer VALUES (%s, %s, %s, %s, %s, %s, %s);"""
-        cursor.execute(insertQuery, 
-                        (information[0], "公斤", information[1],
-                        information[2], information[3], information[4], currentDateTime))
-        database.commit()
-        return 0
+        try:
+            database = psycopg2.connect(self.DATABASE_URL, sslmode='require')
+            currentDateTime = datetime.datetime.now()
+            cursor = database.cursor() 
+            print(self.remind_message)
+            insertQuery = """INSERT INTO fertilizer VALUES (%s, %s, %s, %s, %s, %s, %s);"""
+            cursor.execute(insertQuery, 
+                            (information[0], "公斤", information[1],
+                            information[2], information[3], information[4], currentDateTime))
+            database.commit()
+            return 0
+        except Exception as error:
+            return error
 
     def sensor_insert(self, information):
-        database = psycopg2.connect(self.DATABASE_URL, sslmode='require')
-        currentDateTime = datetime.datetime.now()
-        cursor = database.cursor() 
-        print(self.remind_message)
-        insertQuery = """INSERT INTO sensor_data VALUES (%s, %s);"""
-        cursor.execute(insertQuery, (float(information), currentDateTime))
-        database.commit()
-        return 0
+        try:
+            database = psycopg2.connect(self.DATABASE_URL, sslmode='require')
+            currentDateTime = datetime.datetime.now()
+            cursor = database.cursor() 
+            print(self.remind_message)
+            insertQuery = """INSERT INTO sensor_data VALUES (%s, %s);"""
+            cursor.execute(insertQuery, (float(information[0]), currentDateTime))
+            database.commit()
+            cursor.close()
+            database.close()
+            return 0
+        except Exception as error:
+            return error
         
     def select_table(self, table_name):
         database = psycopg2.connect(self.DATABASE_URL, sslmode='require')
