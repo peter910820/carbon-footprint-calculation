@@ -3,14 +3,10 @@
 {% block title %}碳足跡系統{% endblock %}
 
 {% block main %}
-
-    <div class="container center">
-        <h1>手動輸入感測器資訊:</h1>
-        <div>
-            <form action="/sd_insert" method="post">
-                <input type="text" name="ppm" class="form-control" placeholder="ppm: "><br>
-                <button type="submit" class="btn button">送出</button>
-        </div>
+    <h1>手動輸入感測器資訊:</h1>
+    <div>
+        <form action="/submit/sensor" method="post">
+            <input type="text" name="information" class="form-control" placeholder="ppm: "><br>
+            <button type="submit" class="btn button">送出</button>
     </div>
-    
 {% endblock %}

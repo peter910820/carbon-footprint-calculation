@@ -7,17 +7,27 @@ class DatabaseConnect:
         self.DATABASE_URL = 'postgres://university_topic_user:QTv1CNqIdUAliShL1DldMYWaqV9wnhc0@dpg-cfvpfqt269v0ptn4thtg-a.oregon-postgres.render.com/university_topic'
     
     def maindata_insert(self, information, fertilizer_integrate):
-        database = psycopg2.connect(self.DATABASE_URL, sslmode='require')
-        cursor = database.cursor()
-        print(self.remind_message)
-        insertQuery = """INSERT INTO product_information VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"""
-        
-        # cursor.execute(insertQuery, 
-        #             (article_array[0], article_array[4], article_array[1], article_array[2],
-        #             article_array[6], f'{article_array[4]},{article_array[5]}', article_array[3], article_array[7],
-        #             currentDateTime))
-        # db.commit() 
-        return
+        try:
+            database = psycopg2.connect(self.DATABASE_URL, sslmode='require')
+            print(self.remind_message)
+            cursor = database.cursor()
+            co2e, pointer = [], 0
+            for f in fertilizer_integrate:
+                cursor.execute(f"SELECT * FROM fertilizer WHERE {f} =")
+                # 公式 * fertilizer_integrate[pointer]
+                pointer += 1
+
+            insertQuery = """INSERT INTO product_information VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"""
+            
+            # cursor.execute(insertQuery, 
+            #             (information[-1], information[0], information[1], information[2],
+            #             article_array[6], f'{article_array[4]},{article_array[5]}', article_array[3], article_array[7],
+            #             currentDateTime))
+            # db.commit() 
+            return
+        except:
+            print("ERROR: database insert failed.")
+            return
     
     def show_product_information(self):
         database = psycopg2.connect(self.DATABASE_URL, sslmode='require')

@@ -17,15 +17,18 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
               <div class="navbar-nav">
-                <a class="nav-link" href="/product_information">產品資料鍵入</a>
-                <a class="nav-link" href="/fertilizer">農藥資料鍵入</a>
-                <a class="nav-link" href="/sensor_data">感測器資料鍵入</a>
+                <a class="nav-link" href="/insert/fertilizer">農藥資料鍵入</a>
+                <a class="nav-link" href="/insert/sensor_data">感測器資料鍵入</a>
               </div>
             </div>
         </nav>
         <div class="row container-fluid">
           <div class="col-3"></div>
-          {% block main %}{% endblock %}
+          <div class="col-6 bodyMask " style="height: 120vh;">
+            <br>
+            {% block main %}{% endblock %}
+            <br>
+          </div>
           <div class="col-3"></div>
         </div>
         <script src="https://unpkg.com/bootstrap@5.2.3/dist/js/bootstrap.min.js"></script>

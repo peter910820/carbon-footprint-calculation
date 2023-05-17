@@ -3,16 +3,15 @@
 {% block title %}碳足跡系統{% endblock %}
 
 {% block main %}
-    <div class="container center">
-        <h2>輸入農藥資訊:</h2>
-        <div>
-            <form action="/fertilizer_insert" method="post">
-                <input type="text" name="information" class="form-control" placeholder="name: "><br>
-                <input type="text" name="information" class="form-control" placeholder="unit: "><br>
-                <input type="text" name="information" class="form-control" placeholder="N_kg: "><br>
-                <input type="text" name="information" class="form-control" placeholder="P2O5_kg: "><br>
-                <input type="text" name="information" class="form-control" placeholder="K2O_kg :"><br>
-                <button type="submit" class="btn button">送出</button>
-        </div>
+    <h1>輸入農藥資訊:</h1>
+    <div>
+        <form action="/submit/fertilizer" method="post">
+            <input type="text" name="information" class="form-control" placeholder="name: "><br>
+            <input type="text" name="information" class="form-control" placeholder="unit: "><br>
+            <input type="text" name="information" class="form-control" placeholder="N_kg: "><br>
+            <input type="text" name="information" class="form-control" placeholder="P2O5_kg: "><br>
+            <input type="text" name="information" class="form-control" placeholder="K2O_kg :"><br>
+            <input type="text" name="information" class="form-control" placeholder="CO2e :"><br>
+            <button type="submit" class="btn button">送出</button>
     </div>
 {% endblock %}

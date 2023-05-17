@@ -27,6 +27,10 @@ function increase(){
             請填寫肥料劑量
         </div>
     </div>`;
+    let h = document.querySelector(".bodyMask"),vh = 0;
+    vh = parseInt(h.style.height.substring(0, h.style.height.length -2)) + 13;
+    console.log(vh);
+    h.style.height = `${vh}vh`;
 }
 
 function reduce(){
@@ -36,6 +40,10 @@ function reduce(){
         let _bar = _[_.length - 2];
         _foo.remove();
         _bar.remove();
+        let h = document.querySelector(".bodyMask"),vh = 0;
+        vh = parseInt(h.style.height.substring(0, h.style.height.length -2)) - 13;
+        console.log(vh);
+        h.style.height = `${vh}vh`;
     }catch(error){
         console.log(`ERROR: ${error}`)
     }
