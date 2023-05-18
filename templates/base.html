@@ -10,7 +10,7 @@
         <title>{% block title %}{% endblock %}</title>
     </head>
     <body>
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
           <a class="navbar-brand" href="/">碳足跡紀錄系統</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -21,17 +21,13 @@
               <li class="nav-item">
                 <a class="nav-link" href="/insert/fertilizer">農藥資料鍵入</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/insert/sensor_data">感測器資料鍵入</a>
-              </li>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   查看表格資料
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  <li><a class="dropdown-item" href="/show-table/product_information">主表格</a></li>
-                  <li><a class="dropdown-item" href="/show-table/fertilizer">肥料表格</a></li>
-                  <li><a class="dropdown-item" href="/show-table/sensor_data">感測器表格</a></li>
+                  <li><a class="dropdown-item" href="/search">使用者資料</a></li>
+                  <li><a class="dropdown-item" href="/show-data/fertilizer">肥料資料</a></li>
                 </ul>
               </li>
             </ul>
@@ -40,7 +36,7 @@
       </nav>
         <div class="row container-fluid">
           <div class="col-2"></div>
-          <div class="col-8 bodyMask" style="height: 120vh;">
+          <div class="col-8 bodyMask " style="height: 120vh">
             <br>
             {% block main %}{% endblock %}
             <br>

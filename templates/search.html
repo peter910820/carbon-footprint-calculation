@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}查詢資料{% endblock %}
+
+{% block main %}
+    <h1>輸入使用者名稱</h1>
+    <form class="row g-3 was-validated" action="/show-data" method="post">
+        <div class="col-12">
+            <label for="user" class="form-label">輸入要查詢的使用者</label>
+            <input type="text" name='user' class="form-control" id="user" value="" required>
+            <div class="invalid-feedback">
+                請填寫使用者
+            </div>
+        </div>
+        <div class="col-12">
+            <button class="btn btn-primary" type="submit">查詢</button>
+        </div>
+    </form>
+{% endblock %}

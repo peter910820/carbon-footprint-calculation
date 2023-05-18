@@ -30,9 +30,20 @@ body{
     background-size: cover;
     background-attachment: fixed;
     font-weight: bold;
-    
 }
 .bodyMask {
     background: rgba(255, 255, 255, 0.4);
     margin-bottom: 0px;
+}
+.img_box img {
+    max-width: 100%;
+    max-height: 100%;
+}
+.scroll_main{
+    max-height: 210px;
+    overflow: auto;
+}
+.scroll_sensor{
+    max-height: 440px;
+    overflow: auto;
 }

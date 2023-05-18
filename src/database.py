@@ -1,4 +1,5 @@
 import psycopg2, datetime
+import matplotlib.pyplot as plt
 
 class DatabaseConnect:
 
@@ -54,32 +55,40 @@ class DatabaseConnect:
         except Exception as error:
             return error
 
-    def sensor_insert(self, information):
-        try:
-            database = psycopg2.connect(self.DATABASE_URL, sslmode='require')
-            currentDateTime = datetime.datetime.now()
-            cursor = database.cursor() 
-            print(self.remind_message)
-            insertQuery = """INSERT INTO sensor_data VALUES (%s, %s);"""
-            cursor.execute(insertQuery, (float(information[0]), currentDateTime))
-            database.commit()
-            cursor.close()
-            database.close()
-            return 0
-        except Exception as error:
-            return error
-        
-    def select_table(self, table_name):
+    def fertilizer_show(self):
         database = psycopg2.connect(self.DATABASE_URL, sslmode='require')
         cursor = database.cursor() 
         print(self.remind_message)
-        if table_name in ["product_information", "fertilizer", "sensor_data"]:
-            cursor.execute(f"SELECT * FROM {table_name}")
-            data = cursor.fetchall()
+        cursor.execute("SELECT * FROM fertilizer")
+        data = cursor.fetchall()
+        cursor.close()
+        database.close()
+        return data
+    
+    def search(self, user):
+        database = psycopg2.connect(self.DATABASE_URL, sslmode='require')
+        cursor = database.cursor()
+        cursor.execute(f"SELECT * FROM product_information WHERE creater = '{user}'")
+        main_data = cursor.fetchall()
+        cursor.execute(f"SELECT * FROM sensor_data WHERE username = '{user}'")
+        sensor_data = cursor.fetchall()
+        if main_data == [] and sensor_data == []:
             cursor.close()
             database.close()
-            return data
-        else:
-            cursor.close()
-            database.close()
-            return 1
+            return 1, 1
+        data = [_[1] for _ in sensor_data]
+        time = [_[2] for _ in sensor_data]
+        if len(data) > 5:
+            data = data[len(data)-5:]
+            time = time[len(time)-5:]
+        time = [t.strftime("%H:%M:%S") for t in time]
+        plt.style.use('seaborn')
+        plt.plot(time, data)
+        plt.title("ppm time chart")
+        plt.xlabel("time")
+        plt.ylabel("ppm")
+        plt.savefig("./static/chart.png")
+
+        cursor.close()
+        database.close()
+        return main_data, sensor_data

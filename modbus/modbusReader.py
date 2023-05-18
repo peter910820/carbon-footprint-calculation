@@ -22,6 +22,6 @@ def modbus_read():
             print(result.function_code)
             print("error!")
         time.sleep(10)
-
+        # PPM*(16.04/22.4)*25*0.000001
 if __name__ == "__main__":
     modbus_read()
