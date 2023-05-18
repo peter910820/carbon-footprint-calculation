@@ -17,7 +17,7 @@ def modbus_read():
                "name": str(result.registers)
             }
             print(result.registers)
-            requests.post("https://8c07-2001-b011-20e0-3530-2504-cf1f-d12f-58ee.ngrok-free.app/sd",json.dumps(pr))
+            requests.post("https://carbon-footprint-calculation.onrender.com/sd",json.dumps(pr))
         except:
             print(result.function_code)
             print("error!")

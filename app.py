@@ -23,8 +23,16 @@ class Data(BaseModel):
 async def product_information(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
+@app.get("/insert/{table}", response_class=HTMLResponse)
+async def insert_page(request: Request, table):
+    match table:
+        case "fertilizer":
+            return templates.TemplateResponse("fertilizer.html", {"request": request})
+        case "sensor_data":
+            return templates.TemplateResponse("sensor_data.html", {"request": request})
+        
 @app.post("/maindata-insert", response_class=HTMLResponse)
-async def maindata(request: Request, information: list = Form(...), 
+async def submit_maindata(request: Request, information: list = Form(...), 
                    information_fertilizer: list = Form(...), 
                    information_dosage_fertilizer: list = Form(...)):
     fertilizer, dosage_fertilizer = '', ''
@@ -44,23 +52,6 @@ async def maindata(request: Request, information: list = Form(...),
     except Exception as error:
         return templates.TemplateResponse("error.html", {"request": request, "error": error})  
 
-@app.get("/show-table/{table}", response_class=HTMLResponse)
-async def show_table(request: Request, table):
-    database = DatabaseConnect()
-    datas = database.select_table(table)
-    if datas != 1:
-        return templates.TemplateResponse("show_table.html", {"request": request, 'table' : table, 'datas' : datas})
-    error = "ERROR: This table is not exist."
-    return templates.TemplateResponse("error.html", {"request": request, "error": error})
-
-@app.get("/insert/{table}", response_class=HTMLResponse)
-async def insert_table(request: Request, table):
-    match table:
-        case "fertilizer":
-            return templates.TemplateResponse("fertilizer.html", {"request": request})
-        case "sensor_data":
-            return templates.TemplateResponse("sensor_data.html", {"request": request})
-
 @app.post("/submit/{table}", response_class=HTMLResponse)
 async def submit_table(request: Request, table, information : list = Form(...)):
     try:
@@ -78,6 +69,15 @@ async def submit_table(request: Request, table, information : list = Form(...)):
     except Exception as error:
         print(error)
         return templates.TemplateResponse('error.html',{'request': request,"error": error})
+    
+@app.get("/show-table/{table}", response_class=HTMLResponse)
+async def show_table(request: Request, table):
+    database = DatabaseConnect()
+    datas = database.select_table(table)
+    if datas != 1:
+        return templates.TemplateResponse("show_table.html", {"request": request, 'table' : table, 'datas' : datas})
+    error = "ERROR: This table is not exist."
+    return templates.TemplateResponse("error.html", {"request": request, "error": error})
 
 @app.post("/sd", response_class=HTMLResponse)
 async def sensor_data(request: Request, data : Data):

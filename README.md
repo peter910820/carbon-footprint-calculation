@@ -1,6 +1,8 @@
 # carbon-footprint-calculation
 
 ## 05/18
+
+* 修正主顯示肥料為英文之問題
 * 新增主資料鍵入報錯之顯示
 * 修正sensor資料鍵入完顯示空白之錯誤
 

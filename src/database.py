@@ -5,10 +5,11 @@ class DatabaseConnect:
     def __init__(self):
         self.remind_message = 'Database is connect OK!'
         self.DATABASE_URL = 'postgres://university_topic_user:QTv1CNqIdUAliShL1DldMYWaqV9wnhc0@dpg-cfvpfqt269v0ptn4thtg-a.oregon-postgres.render.com/university_topic'
+        self.translate = {"urea": "尿素", "superphosphate": "過磷酸鈣", "potassium_chloride": "氯化鉀", "calcium_ammonium_nitrate": "硝酸銨鈣(肥料用)"}
     
     def maindata_insert(self, information, fertilizer_integrate):
         currentDateTime = datetime.datetime.now()
-        translate = {"urea": "尿素", "superphosphate": "過磷酸鈣", "potassium_chloride": "氯化鉀", "calcium_ammonium_nitrate": "硝酸銨鈣(肥料用)"}
+        fertilizer_insert = ""
         total_co2e = 0.0
         try:
             fertilizer_name = fertilizer_integrate[0].split("//")
@@ -19,24 +20,23 @@ class DatabaseConnect:
             print(self.remind_message)
             cursor = database.cursor()
             for index, element in enumerate(fertilizer_name):
-                cursor.execute(f"SELECT CO2e FROM fertilizer WHERE name = '{translate[element]}'")
+                cursor.execute(f"SELECT CO2e FROM fertilizer WHERE name = '{self.translate[element]}'")
+                fertilizer_insert += f"{self.translate[element]}, "
                 data = cursor.fetchall()
                 total_co2e += data[0][0] * float(fertilizer_dosage[index])
             print(total_co2e) # total_co2e
-
+            print(fertilizer_insert)
             insertQuery = """INSERT INTO product_information VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"""
-            print(fertilizer_integrate[0])
-            print(information)
-            print(type(fertilizer_integrate[0]))
             cursor.execute(insertQuery, 
                             (information[3], information[0], information[1], information[2],
-                            fertilizer_integrate[0].replace('//',', '), fertilizer_integrate[1].replace('//',', '), "None",'0',
+                            fertilizer_insert, fertilizer_integrate[1].replace('//',', '), "None",'0',
                             total_co2e, 0.0, total_co2e, currentDateTime))
             database.commit()
             cursor.close()
             database.close()
             return 0
         except Exception as error:
+            print(error)
             return error
         
     def fertilizer_insert(self, information):
