@@ -68,7 +68,7 @@ async def submit_table(request: Request, table, information : list = Form(...)):
 async def show_table(request: Request, user : str = Form(...)):
     database = DatabaseConnect()
     main_data, sensor_data = database.search(user)
-    if main_data == 1:
+    if main_data == 1 and sensor_data == 1:
         return templates.TemplateResponse("error.html", {"request": request, "error": "couldn't find user"})
     return templates.TemplateResponse("show_table.html", {"request": request, 'table' : "username", 'main_data' : main_data, "sensor_data": sensor_data })
 

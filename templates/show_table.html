@@ -3,7 +3,9 @@
 {% block title %}碳足跡系統{% endblock %}
 
 {% block main %}
-{% if table == "username" %}
+{% if table == 1 %}
+<h2>沒有輸入紀錄</h2>
+{% elif table == "username" %}
 <h1>輸入紀錄</h1>
 <div class="table-responsive center scroll_main">
     <table class="table table-striped table-info">
@@ -37,6 +39,9 @@
 </div>
 <hr>
 <h1>感測器紀錄</h1>
+{% if sensor_data == 1 %}
+<h2>沒有感測器紀錄</h2>
+{% else %}
 <div class="row">
     <div class="col-8 scroll_sensor">
         <div class="img_box"><img src="{{ url_for('static', path='/chart.png') }}"></div>
@@ -60,6 +65,7 @@
         </table>
     </div>
 </div>
+{% endif %}
 {% else %}
 <h1>肥料種類</h1>
 <div class="table-responsive center">
