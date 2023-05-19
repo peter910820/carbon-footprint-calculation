@@ -5,15 +5,6 @@ function increase(){
         <label for="fertilizer" class="form-label">肥料</label>
         <select id="fertilizer" name='information_fertilizer' class="form-select is-invalid" required>
             <option selected disabled value="">選擇肥料...</option>
-            <!-- <option value="Compound_Fertilizer_No.1">1號複合肥料</option>
-                <option value="Compound_Fertilizer_No.4">4號複合肥料</option>
-                <option value="Compound_Fertilizer_No.5">5號複合肥料</option>
-                <option value="Compound_Fertilizer_No.25">25號複合肥料</option>
-                <option value="Compound_Fertilizer_No.36">36號複合肥料</option>
-                <option value="Compound_Fertilizer_No.39">39號複合肥料</option>
-                <option value="Compound_Fertilizer_No.42">42號複合肥料</option>
-                <option value="Compound_Fertilizer_No.43">43號複合肥料</option>
-                <option value="ammonium_sulfate">硫酸銨</option> -->
             <option value="urea">尿素</option>
             <option value="superphosphate">過磷酸鈣</option>
             <option value="potassium_chloride">氯化鉀</option>
@@ -21,10 +12,10 @@ function increase(){
         </select>
     </div>
     <div class="col-5 fertilizer_space_insert">
-        <label for="dosage_fertilizer" class="form-label">肥料劑量</label>
+        <label for="dosage_fertilizer" class="form-label">肥料用量(單位kg)</label>
         <input type="text" name='information_dosage_fertilizer' class="form-control" id="dosage_fertilizer" value="" required>
         <div class="invalid-feedback">
-            請填寫肥料劑量
+            請填寫肥料用量
         </div>
     </div>`;
     let h = document.querySelector(".bodyMask"),vh = 0;

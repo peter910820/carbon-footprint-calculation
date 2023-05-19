@@ -19,8 +19,8 @@ class DatabaseConnect:
             cursor = database.cursor()
             for index, element in enumerate(fertilizer_name):
                 cursor.execute(f"SELECT CO2e FROM fertilizer WHERE name = '{self.translate[element]}'")
-                fertilizer_insert += f"{self.translate[element]}, "
                 data = cursor.fetchall()
+                fertilizer_insert += f"{self.translate[element]}, "
                 total_co2e += data[0][0] * float(fertilizer_dosage[index])
             print(total_co2e) # total_co2e
             print(fertilizer_insert)

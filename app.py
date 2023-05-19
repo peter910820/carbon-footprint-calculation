@@ -53,7 +53,7 @@ async def insert_page(request: Request):
     return templates.TemplateResponse("fertilizer.html", {"request": request})
 
 @app.post("/submit/fertilizer", response_class=HTMLResponse)
-async def submit_table(request: Request, table, information : list = Form(...)):
+async def submit_table(request: Request, information : list = Form(...)):
     try:
         database = DatabaseConnect()
         status = database.fertilizer_insert(information)
@@ -70,7 +70,7 @@ async def show_table(request: Request, user : str = Form(...)):
     main_data, sensor_data = database.search(user)
     if main_data == 1 and sensor_data == 1:
         return templates.TemplateResponse("error.html", {"request": request, "error": "couldn't find user"})
-    return templates.TemplateResponse("show_table.html", {"request": request, 'table' : "username", 'main_data' : main_data, "sensor_data": sensor_data })
+    return templates.TemplateResponse("show_table.html", {"request": request, 'table' : user, 'main_data' : main_data, "sensor_data": sensor_data })
 
 @app.get("/show-data/fertilizer", response_class=HTMLResponse)
 async def show_table(request: Request):

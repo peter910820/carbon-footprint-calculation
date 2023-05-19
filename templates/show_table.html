@@ -3,70 +3,7 @@
 {% block title %}碳足跡系統{% endblock %}
 
 {% block main %}
-{% if table == 1 %}
-<h2>沒有輸入紀錄</h2>
-{% elif table == "username" %}
-<h1>輸入紀錄</h1>
-<div class="table-responsive center scroll_main">
-    <table class="table table-striped table-info">
-        <thead>
-            <tr>
-            <th scope="col" class="col-1">輸入者</th>
-            <th scope="col" class="col-1">作物</th>
-            <th scope="col" class="col-1">產地</th>
-            <th scope="col" class="col-2">種植面積</th>
-            <th scope="col" class="col-2">肥料</th>
-            <th scope="col" class="col-2">肥料劑量</th>
-            <th scope="col" class="col-1">總co2e</th>
-            <th scope="col" class="col-2">建立時間</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for md in main_data %}
-            <tr>
-                <td>{{ md[0] }}</td>
-                <td>{{ md[1] }}</td>
-                <td>{{ md[2] }}</td>
-                <td>{{ md[3] }}</td>
-                <td>{{ md[4] }}</td>
-                <td>{{ md[5] }}</td>
-                <td>{{ md[10]|round(3) }}</td>
-                <td>{{ md[11] }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-</div>
-<hr>
-<h1>感測器紀錄</h1>
-{% if sensor_data == 1 %}
-<h2>沒有感測器紀錄</h2>
-{% else %}
-<div class="row">
-    <div class="col-8 scroll_sensor">
-        <div class="img_box"><img src="{{ url_for('static', path='/chart.png') }}"></div>
-    </div>
-    <div class="col-4 table-responsive center scroll_sensor">
-        <table class="table table-striped table-info">
-            <thead>
-                <tr>
-                <th scope="col" class="col-1">ppm值</th>
-                <th scope="col" class="col-1">時間</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for sd in sensor_data %}
-                <tr>
-                    <td>{{ sd[1] }}</td>
-                    <td>{{ sd[2] }}</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
-</div>
-{% endif %}
-{% else %}
+{% if table == "fertilizer" %}
 <h1>肥料種類</h1>
 <div class="table-responsive center">
     <table class="table table-striped table-info">
@@ -96,5 +33,68 @@
         </tbody>
     </table>
 </div>
+{% else %}
+<h1>{{ table }}的紀錄: </h1>
+{% if main_data == 1 %}
+<h2 style="color: red;font-weight: bold;">沒有輸入紀錄</h2>
+{% else %}
+<div class="table-responsive center scroll_main">
+    <table class="table table-striped table-info">
+        <thead>
+            <tr>
+            <th scope="col" class="col-1">作物</th>
+            <th scope="col" class="col-1">產地</th>
+            <th scope="col" class="col-2">種植面積</th>
+            <th scope="col" class="col-2">肥料</th>
+            <th scope="col" class="col-2">肥料用量</th>
+            <th scope="col" class="col-1">總co2e</th>
+            <th scope="col" class="col-2">建立時間</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for md in main_data %}
+            <tr>
+                <td>{{ md[1] }}</td>
+                <td>{{ md[2] }}</td>
+                <td>{{ md[3] }}</td>
+                <td>{{ md[4] }}</td>
+                <td>{{ md[5] }}</td>
+                <td>{{ md[10]|round(3) }}</td>
+                <td>{{ md[11] }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<hr>
+{% endif %}
+<h1>感測器紀錄</h1>
+{% if sensor_data == 1 %}
+<h2 style="color: red;font-weight: bold;">沒有感測器紀錄</h2>
+{% else %}
+<div class="row">
+    <div class="col-8 scroll_sensor">
+        <div class="img_box"><img src="{{ url_for('static', path='/chart.png') }}"></div>
+    </div>
+    <div class="col-4 table-responsive center scroll_sensor">
+        <table class="table table-striped table-info">
+            <thead>
+                <tr>
+                <th scope="col" class="col-1">ppm值</th>
+                <th scope="col" class="col-1">時間</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for sd in sensor_data %}
+                <tr>
+                    <td>{{ sd[1] }}</td>
+                    <td>{{ sd[2] }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
 {% endif %}
 {% endblock %}
