@@ -17,7 +17,8 @@ templates = Jinja2Templates(directory="templates")
 # DATABASE_URL =  os.getenv('DATABASE_URL')
 
 class Data(BaseModel):
-    name: str
+    username: str
+    data: str
 
 @app.get("/", response_class=HTMLResponse)
 async def product_information(request: Request):
@@ -83,14 +84,13 @@ async def show_table(request: Request):
 
 @app.post("/sd", response_class=HTMLResponse)
 async def sensor_data(request: Request, data : Data):
+    DATABASE_URL = "postgres://university_topic_user:QTv1CNqIdUAliShL1DldMYWaqV9wnhc0@dpg-cfvpfqt269v0ptn4thtg-a.oregon-postgres.render.com/university_topic"
     data_dict = data.dict()
-    print(data_dict['name'])
-    data_dict['name'] = data_dict['name'].replace('[','')
-    data_dict['name'] = data_dict['name'].replace(']','')
-    s = float(data_dict['name'][-1])
-    conn = psycopg2.connect("postgres://university_topic_user:QTv1CNqIdUAliShL1DldMYWaqV9wnhc0@dpg-cfvpfqt269v0ptn4thtg-a.oregon-postgres.render.com/university_topic", sslmode='require')
+    data = data_dict['data']
+    name = data_dict['username']
+    conn = psycopg2.connect(DATABASE_URL, sslmode='require')
     cursor = conn.cursor()
-    cursor.execute(f"INSERT INTO sensor_data (ppm) VALUES ({s})")
+    cursor.execute(f"INSERT INTO sensor_data (username, ppm) VALUES ('{name}', {data})")
     conn.commit()
 
 if __name__ == "__main__":
