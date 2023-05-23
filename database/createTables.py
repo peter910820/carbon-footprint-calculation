@@ -31,7 +31,7 @@ cursor.execute('''CREATE TABLE fertilizer (
 
 cursor.execute('''CREATE TABLE sensor_data (
     username VARCHAR(30) NOT NULL,
-    ppm DOUBLE PRECISION NOT NULL,
+    co2e DOUBLE PRECISION NOT NULL,
     time TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP);''')
 
 conn.commit()
