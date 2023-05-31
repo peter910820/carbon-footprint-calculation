@@ -79,12 +79,14 @@ class DatabaseConnect:
                 data = data[len(data)-5:]
                 time = time[len(time)-5:]
             time = [t.strftime("%H:%M:%S") for t in time]
-            print(time)
+            plt.clf()
             plt.style.use('seaborn')
             plt.plot(time, data)
             plt.title("co2e time chart")
             plt.xlabel("time")
             plt.ylabel("co2e")
+            print(data)
+            print(time)
             plt.savefig("./static/chart.png")
         if main_data == []:
             cursor.close()

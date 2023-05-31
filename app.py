@@ -90,7 +90,7 @@ async def sensor_data(request: Request, data : Data):
     name = data_dict['username']
     conn = psycopg2.connect(DATABASE_URL, sslmode='require')
     cursor = conn.cursor()
-    cursor.execute(f"INSERT INTO sensor_data (username, ppm) VALUES ('{name}', {data})")
+    cursor.execute(f"INSERT INTO sensor_data (username, co2e) VALUES ('{name}', {data})")
     conn.commit()
 
 if __name__ == "__main__":
