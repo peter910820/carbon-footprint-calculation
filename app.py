@@ -84,7 +84,7 @@ async def show_table(request: Request):
 
 @app.post("/sd", response_class=HTMLResponse)
 async def sensor_data(request: Request, data : Data):
-    DATABASE_URL = "postgres://university_topic_user:QTv1CNqIdUAliShL1DldMYWaqV9wnhc0@dpg-cfvpfqt269v0ptn4thtg-a.oregon-postgres.render.com/university_topic"
+    DATABASE_URL = "postgres://seaotterms:T8Rh329KJna20gXJEtfYCLRhcb89BpE8@dpg-chrdh4bhp8ud4n4meprg-a.oregon-postgres.render.com/university_topic_xy0s"
     data_dict = data.dict()
     data = data_dict['data']
     name = data_dict['username']
