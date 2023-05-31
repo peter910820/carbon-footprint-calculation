@@ -21,7 +21,7 @@ class DatabaseConnect:
                 cursor.execute(f"SELECT CO2e FROM fertilizer WHERE name = '{self.translate[element]}'")
                 data = cursor.fetchall()
                 fertilizer_insert += f"{self.translate[element]}, "
-                total_co2e += data[0][0] * float(fertilizer_dosage[index])
+                total_co2e += data[0][0] * float(fertilizer_dosage[index]) * 0.001
             print(total_co2e) # total_co2e
             print(fertilizer_insert)
             insertQuery = """INSERT INTO product_information VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"""
