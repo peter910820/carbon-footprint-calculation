@@ -1,4 +1,6 @@
-import psycopg2, os
+import os
+import psycopg2
+
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -6,7 +8,9 @@ DATABASE_URL =  os.getenv('DATABASE_URL')
 conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 cursor = conn.cursor()
 
-cursor.execute('''CREATE TABLE product_information (
+cursor.execute(
+    '''
+    CREATE TABLE product_information (
     creater VARCHAR(20) NOT NULL,
     grow_crops VARCHAR(20) NOT NULL,
     origin_place VARCHAR(20) NOT NULL,
@@ -18,21 +22,28 @@ cursor.execute('''CREATE TABLE product_information (
     fertilizer_co2e DOUBLE PRECISION NOT NULL,
     pesticide_co2e DOUBLE PRECISION NOT NULL,
     final_co2e DOUBLE PRECISION NOT NULL,
-    time TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP);''')
+    time TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP);
+    ''')
 
-cursor.execute('''CREATE TABLE fertilizer (
+cursor.execute(
+    '''
+    CREATE TABLE fertilizer (
     name VARCHAR(199) NOT NULL,
     unit VARCHAR(199),
     N_kg DOUBLE PRECISION,
     P2O5_kg DOUBLE PRECISION,
     K2O_kg DOUBLE PRECISION,
     CO2e DOUBLE PRECISION,
-    time TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP);''')
+    time TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP);
+    ''')
 
-cursor.execute('''CREATE TABLE sensor_data (
+cursor.execute(
+    '''
+    CREATE TABLE sensor_data (
     username VARCHAR(30) NOT NULL,
     co2e DOUBLE PRECISION NOT NULL,
-    time TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP);''')
+    time TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP);
+    ''')
 
 conn.commit()
 print('success')
