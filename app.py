@@ -1,5 +1,8 @@
-import uvicorn, os, psycopg2, datetime
-# from dotenv import load_dotenv
+import datetime
+import os
+import psycopg2
+import uvicorn
+
 from fastapi import FastAPI, Request, Form, Response
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
