@@ -1,4 +1,7 @@
-import psycopg2, os, datetime
+import datetime
+import os
+import psycopg2
+
 from dotenv import load_dotenv
 
 load_dotenv()
