@@ -5,7 +5,10 @@ class DatabaseConnect:
 
     def __init__(self):
         self.DATABASE_URL = 'postgres://seaotterms:T8Rh329KJna20gXJEtfYCLRhcb89BpE8@dpg-chrdh4bhp8ud4n4meprg-a.oregon-postgres.render.com/university_topic_xy0s'
-        self.translate = {"urea": "尿素", "superphosphate": "過磷酸鈣", "potassium_chloride": "氯化鉀", "calcium_ammonium_nitrate": "硝酸銨鈣(肥料用)"}
+        self.translate = {"urea": "尿素", 
+                          "superphosphate": "過磷酸鈣", 
+                          "potassium_chloride": "氯化鉀", 
+                          "calcium_ammonium_nitrate": "硝酸銨鈣(肥料用)"}
     
     def maindata_insert(self, information, fertilizer_integrate):
         currentDateTime = datetime.datetime.now()
