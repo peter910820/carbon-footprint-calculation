@@ -1,57 +1,71 @@
-import psycopg2, datetime
+import psycopg2
+import datetime
 import matplotlib.pyplot as plt
+
+from dotenv import load_dotenv
+from loguru import logger
+
+from database.connect import connect_database
+
 
 class DatabaseConnect:
 
     def __init__(self):
+        load_dotenv()
         self.DATABASE_URL = 'postgres://seaotterms:T8Rh329KJna20gXJEtfYCLRhcb89BpE8@dpg-chrdh4bhp8ud4n4meprg-a.oregon-postgres.render.com/university_topic_xy0s'
-        self.translate = {"urea": "尿素", 
-                          "superphosphate": "過磷酸鈣", 
-                          "potassium_chloride": "氯化鉀", 
+        self.translate = {"urea": "尿素",
+                          "superphosphate": "過磷酸鈣",
+                          "potassium_chloride": "氯化鉀",
                           "calcium_ammonium_nitrate": "硝酸銨鈣(肥料用)"}
-    
+
     def maindata_insert(self, information, fertilizer_integrate):
         currentDateTime = datetime.datetime.now()
         fertilizer_insert, total_co2e = "", 0.0
         try:
+            connection = connect_database()
+            if connection is None:
+                return
+            cursor = connection.cursor()
             fertilizer_name = fertilizer_integrate[0].split("//")
             fertilizer_dosage = fertilizer_integrate[1].split("//")
             fertilizer_name.pop()
             fertilizer_dosage.pop()
-            database = psycopg2.connect(self.DATABASE_URL, sslmode='require')
-            cursor = database.cursor()
             for index, element in enumerate(fertilizer_name):
-                cursor.execute(f"SELECT CO2e FROM fertilizer WHERE name = '{self.translate[element]}'")
+                cursor.execute(
+                    f"SELECT CO2e FROM fertilizer WHERE name = '{self.translate[element]}'")
                 data = cursor.fetchall()
                 fertilizer_insert += f"{self.translate[element]}, "
-                total_co2e += data[0][0] * float(fertilizer_dosage[index]) * 0.001
-            print(total_co2e) # total_co2e
+                total_co2e += data[0][0] * \
+                    float(fertilizer_dosage[index]) * 0.001
+            print(total_co2e)  # total_co2e
             print(fertilizer_insert)
             insertQuery = """INSERT INTO product_information VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"""
-            cursor.execute(insertQuery, 
-                            (information[3], information[0], information[1], information[2],
-                            fertilizer_insert, fertilizer_integrate[1].replace('//',', '), "None",'0',
+            cursor.execute(insertQuery,
+                           (information[3], information[0], information[1], information[2],
+                            fertilizer_insert, fertilizer_integrate[1].replace(
+                                '//', ', '), "None", '0',
                             total_co2e, 0.0, total_co2e, currentDateTime))
-            database.commit()
+            connection.commit()
             cursor.close()
-            database.close()
+            connection.close()
             return 0
-        except Exception as error:
-            return error
-        
+        except Exception as e:
+            logger.error(e)
+            return e
+
     def fertilizer_insert(self, information):
         try:
             database = psycopg2.connect(self.DATABASE_URL, sslmode='require')
             currentDateTime = datetime.datetime.now()
             cursor = database.cursor()
             insertQuery = """INSERT INTO fertilizer VALUES (%s, %s, %s, %s, %s, %s, %s);"""
-            cursor.execute(insertQuery, 
-                            (information[0], "公斤", information[1],
+            cursor.execute(insertQuery,
+                           (information[0], "公斤", information[1],
                             information[2], information[3], information[4], currentDateTime))
             database.commit()
             return 0
-        except Exception as error:
-            return error
+        except Exception as e:
+            return e
 
     def fertilizer_show(self):
         database = psycopg2.connect(self.DATABASE_URL, sslmode='require')
@@ -61,11 +75,12 @@ class DatabaseConnect:
         cursor.close()
         database.close()
         return data
-    
+
     def search(self, user):
         database = psycopg2.connect(self.DATABASE_URL, sslmode='require')
         cursor = database.cursor()
-        cursor.execute(f"SELECT * FROM product_information WHERE creater = '{user}'")
+        cursor.execute(
+            f"SELECT * FROM product_information WHERE creater = '{user}'")
         main_data = cursor.fetchall()
         cursor.execute(f"SELECT * FROM sensor_data WHERE username = '{user}'")
         sensor_data = cursor.fetchall()
