@@ -46,7 +46,7 @@ async def insert_fertilizer(request: Request, information: list = Form(...)):
     e = fertilizer_insert_handler(information)
     if e is not None:
         logger.error(e)
-        return templates.TemplateResponse('error.html', {'request': request, "error": str(500)})
+        return templates.TemplateResponse('error.html', {'request': request, "error": str(e)})
     return templates.TemplateResponse('success.html', {'request': request})
 
 
@@ -54,22 +54,12 @@ async def insert_fertilizer(request: Request, information: list = Form(...)):
 async def submit_maindata(request: Request, information: list = Form(...),
                           information_fertilizer: list = Form(...),
                           information_dosage_fertilizer: list = Form(...)):
-    fertilizer, dosage_fertilizer = '', ''
-    fertilizer_integrate = []
-    try:
-        database = DatabaseConnect()
-        for f in information_fertilizer:
-            fertilizer += f"{f}//"
-        for d_f in information_dosage_fertilizer:
-            dosage_fertilizer += f"{d_f}//"
-        fertilizer_integrate.append(fertilizer)
-        fertilizer_integrate.append(dosage_fertilizer)
-        status = database.maindata_insert(information, fertilizer_integrate)
-        if status != 0:
-            return templates.TemplateResponse("error.html", {"request": request, 'error': str(status)})
-        return templates.TemplateResponse("success.html", {"request": request})
-    except Exception as error:
-        return templates.TemplateResponse("error.html", {"request": request, "error": error})
+    e = product_insert_handler(
+        information, information_fertilizer, information_dosage_fertilizer)
+
+    if e is not None:
+        return templates.TemplateResponse("error.html", {"request": request, 'error': str(e)})
+    return templates.TemplateResponse("success.html", {"request": request})
 
 
 @app.get("/insert/fertilizer", response_class=HTMLResponse)
