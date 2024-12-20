@@ -53,20 +53,6 @@ class DatabaseConnect:
             logger.error(e)
             return e
 
-    def fertilizer_insert(self, information):
-        try:
-            database = psycopg2.connect(self.DATABASE_URL, sslmode='require')
-            currentDateTime = datetime.datetime.now()
-            cursor = database.cursor()
-            insertQuery = """INSERT INTO fertilizer VALUES (%s, %s, %s, %s, %s, %s, %s);"""
-            cursor.execute(insertQuery,
-                           (information[0], "公斤", information[1],
-                            information[2], information[3], information[4], currentDateTime))
-            database.commit()
-            return 0
-        except Exception as e:
-            return e
-
     def fertilizer_show(self):
         database = psycopg2.connect(self.DATABASE_URL, sslmode='require')
         cursor = database.cursor()

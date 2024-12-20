@@ -31,13 +31,23 @@ async def search(request: Request):
     return templates.TemplateResponse("search.html", {"request": request})
 
 
-@app.get("/fertilizer", response_class=HTMLResponse)
-async def fertilizer(request: Request):
-    data, e = fertilizerHandler()
+@app.get("/fertilizer", response_class=HTMLResponse)  # get fertilizer data
+async def get_fertilizer(request: Request):
+    data, e = fertilizer_get_handler()
     if e is not None:
+        logger.error(e)
         templates.TemplateResponse(
             "error.html", {"request": request, "error": e})
     return templates.TemplateResponse("show_table.html", {"request": request, 'table': "fertilizer", 'datas': data})
+
+
+@app.post("/fertilizer", response_class=HTMLResponse)  # insert fertilizer data
+async def insert_fertilizer(request: Request, information: list = Form(...)):
+    e = fertilizer_insert_handler(information)
+    if e is not None:
+        logger.error(e)
+        return templates.TemplateResponse('error.html', {'request': request, "error": str(500)})
+    return templates.TemplateResponse('success.html', {'request': request})
 
 
 @app.post("/maindata-insert", response_class=HTMLResponse)
@@ -65,19 +75,6 @@ async def submit_maindata(request: Request, information: list = Form(...),
 @app.get("/insert/fertilizer", response_class=HTMLResponse)
 async def insert_page(request: Request):
     return templates.TemplateResponse("fertilizer.html", {"request": request})
-
-
-@app.post("/submit/fertilizer", response_class=HTMLResponse)
-async def submit_table(request: Request, information: list = Form(...)):
-    try:
-        database = DatabaseConnect()
-        status = database.fertilizer_insert(information)
-        if status != 0:
-            return templates.TemplateResponse('error.html', {'request': request, "error": str(status)})
-        return templates.TemplateResponse('success.html', {'request': request})
-    except Exception as error:
-        print(error)
-        return templates.TemplateResponse('error.html', {'request': request, "error": error})
 
 
 @app.post("/show-data", response_class=HTMLResponse)
