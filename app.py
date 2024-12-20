@@ -50,7 +50,7 @@ async def insert_fertilizer(request: Request, information: list = Form(...)):
     return templates.TemplateResponse('success.html', {'request': request})
 
 
-@app.post("/maindata-insert", response_class=HTMLResponse)
+@app.post("/product", response_class=HTMLResponse)  # insert product data
 async def submit_maindata(request: Request, information: list = Form(...),
                           information_fertilizer: list = Form(...),
                           information_dosage_fertilizer: list = Form(...)):

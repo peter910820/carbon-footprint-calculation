@@ -9,7 +9,7 @@ from connect import connect_database
 def create_tables(cursor):
     cursor.execute(
         '''
-        CREATE TABLE product_information (
+        CREATE TABLE product (
         creater VARCHAR(20) NOT NULL,
         grow_crops VARCHAR(20) NOT NULL,
         origin_place VARCHAR(20) NOT NULL,

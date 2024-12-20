@@ -39,7 +39,7 @@ class DatabaseConnect:
                     float(fertilizer_dosage[index]) * 0.001
             print(total_co2e)  # total_co2e
             print(fertilizer_insert)
-            insertQuery = """INSERT INTO product_information VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"""
+            insertQuery = """INSERT INTO product VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"""
             cursor.execute(insertQuery,
                            (information[3], information[0], information[1], information[2],
                             fertilizer_insert, fertilizer_integrate[1].replace(
@@ -66,7 +66,7 @@ class DatabaseConnect:
         database = psycopg2.connect(self.DATABASE_URL, sslmode='require')
         cursor = database.cursor()
         cursor.execute(
-            f"SELECT * FROM product_information WHERE creater = '{user}'")
+            f"SELECT * FROM product WHERE creater = '{user}'")
         main_data = cursor.fetchall()
         cursor.execute(f"SELECT * FROM sensor_data WHERE username = '{user}'")
         sensor_data = cursor.fetchall()

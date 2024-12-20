@@ -49,3 +49,23 @@ def fertilizer_insert_handler(information) -> Optional[Exception]:
         return None
     except Exception as e:
         return e
+
+
+def product_insert_handler(information) -> Optional[Exception]:
+    try:
+        load_dotenv()
+        connection = connect_database()
+        currentDateTime = datetime.datetime.now()
+        cursor = connection.cursor()
+
+        insertQuery = """INSERT INTO fertilizer VALUES (%s, %s, %s, %s, %s, %s, %s);"""
+        cursor.execute(insertQuery,
+                       (information[0], "公斤", information[1],
+                        information[2], information[3], information[4], currentDateTime))
+        connection.commit()
+
+        close_connect(connection, cursor)
+
+        return None
+    except Exception as e:
+        return e
