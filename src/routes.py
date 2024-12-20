@@ -1,17 +1,26 @@
 import datetime
+import matplotlib.pyplot as plt
 
 from dotenv import load_dotenv
 from loguru import logger
 from typing import List, Optional, Tuple
 
 from database.connect import connect_database
+from pydantic import BaseModel
+
+
+class Data(BaseModel):
+    username: str
+    data: str
 
 
 def close_connect(connection, cursor):
-    logger.info("Close cursor success")
-    cursor.close()
-    logger.info("Close connection success")
-    connection.close()
+    if cursor:
+        cursor.close()
+        logger.info("Close cursor success")
+    if connection:
+        connection.close()
+        logger.info("Close connection success")
 
 
 def fertilizer_get_handler() -> Tuple[Optional[List], Optional[Exception]]:
@@ -91,6 +100,67 @@ def product_insert_handler(information, information_fertilizer, information_dosa
                            '//', ', '), "None", '0',
                         total_co2e, 0.0, total_co2e, currentDateTime))
 
+        connection.commit()
+        close_connect(connection, cursor)
+        return None
+    except Exception as e:
+        return e
+
+
+def product_get_handler(username) -> Tuple[Optional[List], Optional[List], Optional[Exception]]:
+    try:
+        load_dotenv()
+        connection = connect_database()
+        cursor = connection.cursor()
+        cursor.execute(
+            f"SELECT * FROM product WHERE creater = '{username}'")
+        product_data = cursor.fetchall()
+        cursor.execute(
+            f"SELECT * FROM sensor_data WHERE username = '{username}'")
+        sensor_data = cursor.fetchall()
+
+        if len(product_data) == 0 and len(sensor_data) == 0:
+            close_connect(connection, cursor)
+            return None, None, None
+        if len(sensor_data) == 0:
+            return product_data, None, None
+        else:
+            data = [s[1] for s in sensor_data]
+            time = [s[2] for s in sensor_data]
+            if len(data) > 5:
+                data = data[len(data)-5:]
+                time = time[len(time)-5:]
+            time = [t.strftime("%H:%M:%S") for t in time]
+            plt.clf()
+            plt.style.use('seaborn')
+            plt.plot(time, data)
+            plt.title("co2e time chart")
+            plt.xlabel("time")
+            plt.ylabel("co2e")
+            logger.info(data)
+            logger.info(time)
+            plt.savefig("./static/chart.png")
+        if len(product_data) == 0:
+            close_connect(connection, cursor)
+            return None, sensor_data, None
+        close_connect(connection, cursor)
+        return product_data, sensor_data, None
+    except Exception as e:
+        return None, None, e
+
+
+def sensor_handler(sensor_data) -> Optional[Exception]:
+    try:
+        load_dotenv()
+        connection = connect_database()
+        cursor = connection.cursor()
+
+        data_dict = sensor_data.dict()
+        data = data_dict['data']
+        name = data_dict['username']
+
+        cursor.execute(
+            f"INSERT INTO sensor_data (username, co2e) VALUES ('{name}', {data})")
         connection.commit()
         close_connect(connection, cursor)
         return None

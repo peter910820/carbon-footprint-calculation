@@ -2,13 +2,13 @@ import os
 import psycopg2
 import uvicorn
 
+from dotenv import load_dotenv
 from fastapi import FastAPI, Request, Form
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, Response
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
 
-from src.database import DatabaseConnect
 from src.routes import *
 
 app = FastAPI()
@@ -51,9 +51,9 @@ async def insert_fertilizer(request: Request, information: list = Form(...)):
 
 
 @app.post("/product", response_class=HTMLResponse)  # insert product data
-async def submit_maindata(request: Request, information: list = Form(...),
-                          information_fertilizer: list = Form(...),
-                          information_dosage_fertilizer: list = Form(...)):
+async def insert_product(request: Request, information: list = Form(...),
+                         information_fertilizer: list = Form(...),
+                         information_dosage_fertilizer: list = Form(...)):
     e = product_insert_handler(
         information, information_fertilizer, information_dosage_fertilizer)
 
@@ -62,32 +62,36 @@ async def submit_maindata(request: Request, information: list = Form(...),
     return templates.TemplateResponse("success.html", {"request": request})
 
 
+# get product data
+@app.post("/product/{username}", response_class=HTMLResponse)
+async def product_get(request: Request, username: str):
+    product_data, sensor_data, e = product_get_handler(username)
+    if e is not None:
+        return templates.TemplateResponse("error.html", {"request": request, "error": e})
+    if product_data == None and sensor_data == None:
+        return templates.TemplateResponse("error.html", {"request": request, "error": "couldn't find user"})
+    if sensor_data == None:
+        sensor_data = 1
+    logger.success("get product data success")
+    return templates.TemplateResponse("show_table.html", {"request": request, 'table': username, 'main_data': product_data, "sensor_data": sensor_data})
+
+
+# fertilizer insert page
 @app.get("/insert/fertilizer", response_class=HTMLResponse)
-async def insert_page(request: Request):
+async def insert_fertilizer(request: Request):
     return templates.TemplateResponse("fertilizer.html", {"request": request})
 
 
-@app.post("/show-data", response_class=HTMLResponse)
-async def show_table(request: Request, user: str = Form(...)):
-    database = DatabaseConnect()
-    main_data, sensor_data = database.search(user)
-    if main_data == 1 and sensor_data == 1:
-        return templates.TemplateResponse("error.html", {"request": request, "error": "couldn't find user"})
-    return templates.TemplateResponse("show_table.html", {"request": request, 'table': user, 'main_data': main_data, "sensor_data": sensor_data})
-
-
-@app.post("/sd", response_class=HTMLResponse)
+@app.post("/sensor", response_class=HTMLResponse)  # sensor handler
 async def sensor_data(request: Request, data: Data):
-    DATABASE_URL = "postgres://seaotterms:T8Rh329KJna20gXJEtfYCLRhcb89BpE8@dpg-chrdh4bhp8ud4n4meprg-a.oregon-postgres.render.com/university_topic_xy0s"
-    data_dict = data.dict()
-    data = data_dict['data']
-    name = data_dict['username']
-    conn = psycopg2.connect(DATABASE_URL, sslmode='require')
-    cursor = conn.cursor()
-    cursor.execute(
-        f"INSERT INTO sensor_data (username, co2e) VALUES ('{name}', {data})")
-    conn.commit()
+    e = sensor_handler(data)
+    if e is not None:
+        logger.warning(e)
+        return Response(status_code=500)
+    logger.success("sensor data is sending successful")
+    return Response(status_code=200)
 
 if __name__ == "__main__":
-    port = int(os.environ.get('PORT', 5000))
+    load_dotenv()
+    port = int(os.environ.get('PORT', os.getenv('APP_PORT')))
     uvicorn.run("app:app", host="127.0.0.1", port=port, reload=True)
