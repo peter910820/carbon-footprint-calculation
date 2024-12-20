@@ -1,4 +1,12 @@
-# carbon-footprint-calculation
+# carbon-footprint-calculation  
+
+# 2024  
+
+## 12/20  
+
+* 重構部分程式碼(路由部分)
+
+# 2023  
 
 ## 05/19
 
