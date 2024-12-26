@@ -6,6 +6,7 @@
 {% if table == "fertilizer" %}
 <h1>肥料種類</h1>
 <div class="table-responsive center">
+    <!-- fertilizer-data-table -->
     <table class="table table-striped table-info">
         <thead>
             <tr>
@@ -39,6 +40,7 @@
 <h2 style="color: red;font-weight: bold;">沒有輸入紀錄</h2>
 {% else %}
 <div class="table-responsive center scroll_main">
+    <!-- product-data-table -->
     <table class="table table-striped table-info">
         <thead>
             <tr>
@@ -74,9 +76,10 @@
 {% else %}
 <div class="row">
     <div class="col-8 scroll_sensor">
-        <div class="img_box"><img src="{{ url_for('static', path='/chart.png') }}"></div>
+        <div class="img_box"><img src="{{ url_for('static', path='/chart.png') }}" alt="sensor-chart"></div>
     </div>
     <div class="col-4 table-responsive center scroll_sensor">
+        <!-- sensor-data-table -->
         <table class="table table-striped table-info">
             <thead>
                 <tr>
